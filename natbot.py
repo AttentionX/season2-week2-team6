@@ -27,6 +27,7 @@ chatgpt = "gpt-3.5-turbo"
 gpt4 = 'gpt-4'
 openai_api = openai_api.OpenAI_API(model=openai_api.MODEL)
 
+
 quiet = False
 if len(argv) >= 2:
     if argv[1] == '-q' or argv[1] == '--quiet':
