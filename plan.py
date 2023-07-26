@@ -24,7 +24,7 @@ def clarify_query(query: str):
         
         # check break
         response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo", messages=messages + [{"role":"user", "content": "If the original query is sufficiently clarified, say 'YES'. Otherwise say 'NO'."}]).choices[0].message.content 
+            model="gpt-3.5-turbo", messages=messages + [{"role":"user", "content": prompts.CHECK_CLARIFY_END}]).choices[0].message.content 
         print_color(f"Checking break: {response}", Colors.GREY)
         if "YES" in response:
             break

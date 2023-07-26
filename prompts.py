@@ -20,7 +20,7 @@ A user's question often lacks context, is vague, or can be misleading. For examp
 - Each question should be easy to answer and should only ask one thing at a time.
 """
 
-
+CHECK_CLARIFY_END = "If the original query is sufficiently clarified, or if the user wants to end the conversation say 'YES'. Otherwise say 'NO'."
 INITIAL_GOAL = """
 You are an AI agent with access to the internet. You goal is to utilize the web to answer questions asked by users.
 The user asked a question: {query}
