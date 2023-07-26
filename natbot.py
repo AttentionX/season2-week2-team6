@@ -15,7 +15,7 @@ import sys
 from sys import argv, exit, platform
 import openai
 import os
-from plan import clarify_query, Curriculum
+from plan import clarify_query, Curriculum, get_search_query
 from utils import Colors, print_color
 
 
@@ -186,7 +186,7 @@ class Crawler:
             sync_playwright()
             .start()
             .chromium.launch(
-                headless=False,
+                headless=True,
             )
         )
 
@@ -624,7 +624,8 @@ if (
 
     gpt_cmd = ""
     prev_cmd = ""
-    _crawler.go_to_page(f"google.com/search?q={objective}")
+    search_query = get_search_query(objective)
+    _crawler.go_to_page(f"https://www.daangn.com/search/{search_query}/")
     try:
         while True:
             browser_content = "\n".join(_crawler.crawl())

@@ -59,3 +59,16 @@ def clarify_query(query: str):
     print_color("[Normalized query]: ", Colors.MAGENTA, end="")
     print(response)
     return response
+
+
+def get_search_query(obj: str):
+    messages = [
+        {"role":"system", "content": "You are a helpful assistant"},
+        {"role":"user", "content": f"objective: {obj}\n {prompts.SEARCH_QUERY}"}
+    ]
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=messages).choices[0].message.content
+    print_color("[Search query]: ", Colors.MAGENTA, end="")
+    print(response)
+    return response
