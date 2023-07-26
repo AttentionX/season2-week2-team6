@@ -15,6 +15,9 @@ import sys
 from sys import argv, exit, platform
 import openai
 import os
+from plan import Curriculum, clarify_query
+from utils import Colors, print_color
+
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -610,6 +613,8 @@ if (
     i = input()
     if len(i) > 0:
         objective = i
+    
+    objective = clarify_query(objective)
 
     gpt_cmd = ""
     prev_cmd = ""
