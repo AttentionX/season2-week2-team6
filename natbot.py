@@ -15,7 +15,7 @@ import sys
 from sys import argv, exit, platform
 import openai
 import os
-from plan import clarify_query
+from plan import clarify_query, Curriculum
 from utils import Colors, print_color
 
 
@@ -25,7 +25,7 @@ import openai_api
 
 chatgpt = "gpt-3.5-turbo"
 gpt4 = 'gpt-4'
-openai_api = openai_api.OpenAI_API(model=gpt4)
+openai_api = openai_api.OpenAI_API(model=openai_api.MODEL)
 
 quiet = False
 if len(argv) >= 2:
@@ -170,6 +170,9 @@ $browser_content
 ------------------
 
 OBJECTIVE: $objective
+PLANS: ```
+$curriculum
+```
 CURRENT URL: $url
 PREVIOUS COMMAND: $previous_command
 YOUR COMMAND:
@@ -567,13 +570,15 @@ if (
             "(h) to view commands again\n(r/enter) to run suggested command\n(o) change objective"
         )
 
-    def get_gpt_command(objective, url, previous_command, browser_content):
+    def get_gpt_command(objective, curriculum, url, previous_command, browser_content):
         prompt = prompt_template
         prompt = prompt.replace("$objective", objective)
+        prompt = prompt.replace("$curriculum", str(curriculum))
         prompt = prompt.replace("$url", url[:100])
         prompt = prompt.replace("$previous_command", previous_command)
         prompt = prompt.replace("$browser_content", browser_content[:4500])
         response = openai_api.chatgpt(prompt)
+        print_color("[AI]:", Colors.GREEN)
         print(response)
         return response
         
@@ -615,6 +620,7 @@ if (
         objective = i
     
     objective = clarify_query(objective)
+    curriculum = Curriculum.from_query(objective)
 
     gpt_cmd = ""
     prev_cmd = ""
@@ -623,7 +629,7 @@ if (
         while True:
             browser_content = "\n".join(_crawler.crawl())
             prev_cmd = gpt_cmd
-            gpt_cmd = get_gpt_command(objective, _crawler.page.url, prev_cmd, browser_content)
+            gpt_cmd = get_gpt_command(objective, curriculum, _crawler.page.url, prev_cmd, browser_content)
             gpt_cmd = gpt_cmd.strip()
 
             if not quiet:

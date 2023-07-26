@@ -1,5 +1,5 @@
 from enum import Enum
-
+import json
 from openai.error import (
     APIConnectionError,
     APIError,
@@ -32,3 +32,9 @@ class Colors(Enum):
 def print_color(text, color, *args, **kwargs):
     print(f"{color.value}{text}{Colors.RESET.value}", *args, **kwargs)
 
+def str_parse_json(s: str):
+    s = f"-{s}-"
+    if not len(s.split("```")) == 3:
+        print_color(f"Error during parsing: {s}", Colors.GREY)
+    else:
+        return json.loads(s.split("```")[1])

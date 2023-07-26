@@ -8,12 +8,12 @@ load_dotenv()
 # OpenAI API Key 세팅하기
 openai.api_key = os.environ.get('OPENAI_KEY')
 
-model = "gpt-3.5-turbo"
+MODEL = "gpt-4-0314"#"gpt-3.5-turbo"
 system_message = "You are a helpful assistant"
 query = "Explain self-attention"
 
 class OpenAI_API:
-    def __init__(self, model=model, system_message=system_message):
+    def __init__(self, model=MODEL, system_message=system_message):
         self.model = model
         self.system_message = system_message
 
@@ -22,7 +22,7 @@ class OpenAI_API:
             {"role":"system", "content":self.system_message},
             {"role":"user", "content":query}
         ]
-        response = openai.ChatCompletion.create(model=self.model, messages=messages).choices[0].message.content
+        response = openai.ChatCompletion.create(model=self.model, messages=messages, temperature=0).choices[0].message.content
         return response
     
     @staticmethod
