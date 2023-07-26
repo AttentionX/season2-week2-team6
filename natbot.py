@@ -15,7 +15,7 @@ import sys
 from sys import argv, exit, platform
 import openai
 import os
-from plan import Curriculum, clarify_query
+from plan import clarify_query
 from utils import Colors, print_color
 
 
